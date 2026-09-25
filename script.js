@@ -180,7 +180,7 @@ function mostrarPerguntaAtual() {
   pergunta.respostas.forEach((resp, i) => {
     const btn = document.createElement("button");
     btn.className = "botao-resposta";
-    btn.innerHTML = `<span class="letra">${String.fromCharCode(65+i)}</span> ${resp}`;
+    btn.innerHTML = `<span class="letra">${String.fromCharCode(65 + i)}</span> ${resp}`;
     btn.onclick = () => responder(i, pergunta.correta, btn);
     area.appendChild(btn);
   });
