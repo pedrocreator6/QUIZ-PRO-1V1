@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ PRO 1V1</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="fundo-animado"></div>
+    
+    <!-- TELA INÍCIO -->
+    <div id="tela-inicio" class="tela ativa">
+        <div class="caixa-centro">
+            <h1>🧠 QUIZ PRO 1V1</h1>
+            <p class="subtitulo">Teste seus conhecimentos e divirta-se!</p>
+            
+            <div class="grupo-botoes">
+                <button class="btn-principal" onclick="mostrarTela('tela-entrar')">🎮 Entrar em Sala</button>
+                <button class="btn-principal" onclick="mostrarTela('tela-criar')">➕ Criar Sala</button>
+                <button class="btn-secundario" onclick="abrirEstatisticas()">📊 Estatísticas</button>
+                <button class="btn-secundario" onclick="abrirConquistas()">🏅 Conquistas</button>
+                <button class="btn-secundario" onclick="abrirRanking()">🏆 Ranking</button>
+                <button class="btn-secundario" onclick="abrirCores()">🎨 Tema</button>
+                <button id="btnSom" class="btn-secundario" onclick="alternarSom()">🔊 Som: Ligado</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- TELA CRIAR SALA -->
+    <div id="tela-criar" class="tela">
+        <div class="caixa-centro">
+            <h2>➕ Criar Sala</h2>
+            <input type="text" id="nomeJogador" placeholder="Seu nome" maxlength="20">
+            
+            <div class="modo-jogo">
+                <p>Modo de jogo:</p>
+                <button id="btnModoAmigo" class="btn-modo ativo" onclick="selecionarModo('amigo')">👥 Contra Amigo</button>
+                <button id="btnModoMaquina" class="btn-modo" onclick="selecionarModo('maquina')">🤖 Contra Máquina</button>
+            </div>
+            
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="mostrarTela('tela-inicio')">← Voltar</button>
+                <button class="btn-avancar" onclick="criarSala()">Criar Sala →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA ENTRAR SALA -->
+    <div id="tela-entrar" class="tela">
+        <div class="caixa-centro">
+            <h2>🎮 Entrar em Sala</h2>
+            <input type="text" id="nomeJogadorEntrada" placeholder="Seu nome" maxlength="20">
+            <input type="text" id="codigoEntrada" placeholder="Código da Sala" maxlength="6">
+            <input type="password" id="senhaEntrada" placeholder="Senha (se houver)">
+            
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="mostrarTela('tela-inicio')">← Voltar</button>
+                <button class="btn-avancar" onclick="entrarSala()">Entrar →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA ESPERA -->
+    <div id="tela-espera" class="tela">
+        <div class="caixa-centro">
+            <h2>⏳ Aguardando...</h2>
+            <div class="codigo-sala">
+                <p>Código da sala:</p>
+                <strong id="codigoSala">------</strong>
+            </div>
+            <p id="statusAguardando">Compartilhe o código com seu adversário</p>
+            <button id="btnIniciarAgora" class="btn-principal" style="display:none;" onclick="irParaConfiguracoes()">▶ Iniciar Jogo</button>
+            <button class="btn-voltar" onclick="reiniciar()">Sair da Sala</button>
+        </div>
+    </div>
+
+    <!-- TELA CONFIGURAÇÕES -->
+    <div id="tela-config" class="tela">
+        <div class="caixa-centro">
+            <h2>⚙️ Configurações</h2>
+            
+            <div class="config-grupo">
+                <p>Quantidade de perguntas:</p>
+                <div class="botoes-opcao">
+                    <button class="btn-quantidade" onclick="escolherQuantidade(5)">5</button>
+                    <button class="btn-quantidade ativo" onclick="escolherQuantidade(10)">10</button>
+                    <button class="btn-quantidade" onclick="escolherQuantidade(15)">15</button>
+                    <button class="btn-quantidade" onclick="escolherQuantidade(20)">20</button>
+                </div>
+            </div>
+            
+            <div class="config-grupo">
+                <p>Tempo por pergunta:</p>
+                <div class="botoes-opcao">
+                    <button class="btn-tempo" onclick="escolherTempo(10)">10s</button>
+                    <button class="btn-tempo ativo" onclick="escolherTempo(20)">20s</button>
+                    <button class="btn-tempo" onclick="escolherTempo(30)">30s</button>
+                </div>
+            </div>
+            
+            <div class="config-grupo" id="dificuldadeGrupo" style="display:none;">
+                <p>Dificuldade:</p>
+                <div class="botoes-opcao">
+                    <button class="btn-modo" onclick="escolherDificuldade('facil')">🟢 Fácil</button>
+                    <button class="btn-modo ativo" onclick="escolherDificuldade('medio')">🟡 Médio</button>
+                    <button class="btn-modo" onclick="escolherDificuldade('dificil')">🔴 Difícil</button>
+                </div>
+            </div>
+            
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="mostrarTela('tela-espera')">← Voltar</button>
+                <button class="btn-avancar" onclick="confirmarConfig()">Escolher Tema →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA TEMAS -->
+    <div id="tela-temas" class="tela">
+        <div class="caixa-centro">
+            <h2>📚 Escolha o Tema</h2>
+            <div class="grade-temas">
+                <button class="btn-tema" onclick="escolherTema('gerais')">🧠 Conhecimentos Gerais</button>
+                <button class="btn-tema" onclick="escolherTema('historia')">📜 História</button>
+                <button class="btn-tema" onclick="escolherTema('ciencias')">🔬 Ciências</button>
+                <button class="btn-tema" onclick="escolherTema('geografia')">🌍 Geografia</button>
+                <button class="btn-tema" onclick="escolherTema('esportes')">⚽ Esportes</button>
+                <button class="btn-tema" onclick="escolherTema('filmes')">🎬 Filmes</button>
+                <button class="btn-tema" onclick="escolherTema('series')">📺 Séries</button>
+                <button class="btn-tema" onclick="escolherTema('musica')">🎵 Música</button>
+                <button class="btn-tema" onclick="escolherTema('curiosidades')">💡 Curiosidades</button>
+                <button class="btn-tema surpresa" onclick="escolherTema('surpresa')">🎲 Surpresa</button>
+            </div>
+            <button class="btn-voltar" onclick="mostrarTela('tela-config')">← Voltar</button>
+        </div>
+    </div>
+
+    <!-- TELA JOGO -->
+    <div id="tela-jogo" class="tela">
+        <div class="topo-jogo">
+            <div class="jogador">
+                <span id="nome1">Você</span>
+                <strong id="pontos1">0</strong>
+            </div>
+            <div class="cronometro" id="cronometro">20</div>
+            <div class="jogador">
+                <span id="nome2">Adversário</span>
+                <strong id="pontos2">0</strong>
+            </div>
+        </div>
+
+        <div class="caixa-pergunta">
+            <p id="pergunta" class="texto-pergunta"></p>
+            <p id="dicaTexto" class="dica" style="display:none;"></p>
+            
+            <div id="botoesResposta" class="grade-respostas"></div>
+            
+            <div class="powerups">
+                <button id="btnDica" class="btn-powerup" onclick="usarDica()">💡 Dica</button>
+                <button id="btnEliminar" class="btn-powerup" onclick="usarEliminar()">❌ Eliminar</button>
+                <button id="btnTrocar" class="btn-powerup" onclick="usarTrocar()">🔄 Trocar</button>
+                <button id="btnTempo" class="btn-powerup" onclick="usarTempo()">⏱️ +5s</button>
+            </div>
+            
+            <p id="sequenciaAcertos" class="sequencia"></p>
+        </div>
+    </div>
+
+    <!-- TELA INTERVALO -->
+    <div id="tela-intervalo" class="tela">
+        <div class="caixa-centro">
+            <h3 id="resultadoRodada"></h3>
+            <div class="placar-intervalo">
+                <div>
+                    <span id="intervalo-nome1"></span>
+                    <strong id="intervalo-pontos1"></strong>
+                </div>
+                <span class="versus">VS</span>
+                <div>
+                    <span id="intervalo-nome2"></span>
+                    <strong id="intervalo-pontos2"></strong>
+                </div>
+            </div>
+            <p id="contadorIntervalo" class="contador">5</p>
+        </div>
+    </div>
+
+    <!-- TELA RESULTADO FINAL -->
+    <div id="tela-resultado" class="tela">
+        <div class="caixa-centro">
+            <h2 id="textoResultado"></h2>
+            <div id="estatisticasFinais" class="estatisticas"></div>
+            <div id="novaConquista" class="conquista-nova" style="display:none;">
+                <p>🎉 Nova conquista desbloqueada!</p>
+                <strong id="nomeConquistaNova"></strong>
+            </div>
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="reiniciar()">🏠 Início</button>
+                <button class="btn-avancar" onclick="reiniciar()">🔄 Jogar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELAS AUXILIARES -->
+    <div id="tela-ranking" class="tela">
+        <div class="caixa-centro">
+            <h2>🏆 Ranking</h2>
+            <div id="listaRanking"></div>
+            <button class="btn-voltar" onclick="fecharRanking()">← Voltar</button>
+        </div>
+    </div>
+
+    <div id="tela-conquistas" class="tela">
+        <div class="caixa-centro">
+            <h2>🏅 Conquistas</h2>
+            <div id="gradeConquistas" class="grade-conquistas"></div>
+            <button class="btn-voltar" onclick="fecharConquistas()">← Voltar</button>
+        </div>
+    </div>
+
+    <div id="tela-estatisticas" class="tela">
+        <div class="caixa-centro">
+            <h2>📊 Suas Estatísticas</h2>
+            <div id="caixaEstatisticas"></div>
+            <button class="btn-voltar" onclick="fecharEstatisticas()">← Voltar</button>
+        </div>
+    </div>
+
+    <div id="tela-cores" class="tela">
+        <div class="caixa-centro">
+            <h2>🎨 Escolha o Tema</h2>
+            <div class="grade-temas">
+                <button class="btn-tema" style="background:linear-gradient(135deg,#4cc9f0,#4361ee);" onclick="aplicarTema('azul')">💙 Azul</button>
+                <button class="btn-tema" style="background:linear-gradient(135deg,#a855f7,#6366f1);" onclick="aplicarTema('roxo')">💜 Roxo</button>
+                <button class="btn-tema" style="background:linear-gradient(135deg,#34d399,#10b981);" onclick="aplicarTema('verde')">💚 Verde</button>
+                <button class="btn-tema" style="background:linear-gradient(135deg,#f87171,#ef4444);" onclick="aplicarTema('vermelho')">❤️ Vermelho</button>
+                <button class="btn-tema" style="background:linear-gradient(135deg,#fcd34d,#f59e0b);" onclick="aplicarTema('dourado')">💛 Dourado</button>
+                <button class="btn-tema" style="background:linear-gradient(135deg,#9ca3af,#1f1f1f);" onclick="aplicarTema('escuro')">⚫ Escuro</button>
+            </div>
+            <button class="btn-voltar" onclick="fecharCores()">← Voltar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
