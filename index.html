@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 1v1 Pro 🎮</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Tela 1: Jogadores -->
+        <div id="telaInicio">
+            <h1>🎮 Quiz 1v1 Pro</h1>
+            <p>Desafie seu amigo! 🔥</p>
+            <input type="text" id="jogador1" placeholder="Nome do Jogador 1">
+            <input type="text" id="jogador2" placeholder="Nome do Jogador 2">
+            <button onclick="irConfiguracoes()">Continuar ➡️</button>
+        </div>
+
+        <!-- Tela 2: Configurações -->
+        <div id="telaConfig" style="display: none;">
+            <h2>⚙️ Configurações do Jogo</h2>
+            
+            <div class="grupo-config">
+                <label>⏱️ Tempo por pergunta:</label>
+                <div class="botoes-opcao">
+                    <button class="opcao-tempo" data-tempo="10" onclick="escolherTempo(10)">10s</button>
+                    <button class="opcao-tempo ativo" data-tempo="20" onclick="escolherTempo(20)">20s</button>
+                    <button class="opcao-tempo" data-tempo="30" onclick="escolherTempo(30)">30s</button>
+                </div>
+            </div>
+
+            <div class="grupo-config">
+                <label>🔢 Quantidade de perguntas:</label>
+                <div class="botoes-opcao">
+                    <button class="opcao-qtd" data-qtd="5" onclick="escolherQuantidade(5)">5</button>
+                    <button class="opcao-qtd ativo" data-qtd="10" onclick="escolherQuantidade(10)">10</button>
+                    <button class="opcao-qtd" data-qtd="15" onclick="escolherQuantidade(15)">15</button>
+                    <button class="opcao-qtd" data-qtd="20" onclick="escolherQuantidade(20)">20</button>
+                </div>
+            </div>
+
+            <button onclick="irTema()">Escolher Tema ➡️</button>
+        </div>
+
+        <!-- Tela 3: Escolher Tema -->
+        <div id="telaTema" style="display: none;">
+            <h2>📚 Escolha seu Tema</h2>
+            <button onclick="iniciarQuiz('games')">🎮 Games</button>
+            <button onclick="iniciarQuiz('futebol')">⚽ Futebol</button>
+            <button onclick="iniciarQuiz('gerais')">🧠 Conhecimentos Gerais</button>
+            <button onclick="iniciarQuiz('historia')">📜 História</button>
+            <button onclick="iniciarQuiz('ciencia')">🔬 Ciência</button>
+            <button onclick="iniciarQuiz('tecnologia')">💻 Tecnologia</button>
+        </div>
+
+        <!-- Tela 4: Jogo -->
+        <div id="telaJogo" style="display: none;">
+            <div class="cabecalho-jogo">
+                <div id="infoJogador" class="info-jogador"></div>
+                <div id="pontuacao" class="pontuacao"></div>
+            </div>
+            
+            <div class="barra-tempo">
+                <div id="barraProgresso" class="progresso"></div>
+            </div>
+            <p id="contadorTempo" class="tempo-texto"></p>
+            
+            <h2 id="perguntaTexto" class="pergunta"></h2>
+            <div id="botoesRespostas" class="respostas"></div>
+            
+            <button onclick="proximaPergunta()" id="botaoProxima" class="btn-proximo" style="display: none;">Próxima ➡️</button>
+        </div>
+
+        <!-- Tela 5: Resultado -->
+        <div id="telaResultado" style="display: none;">
+            <h2>🏆 Resultado Final</h2>
+            <div id="caixaResultado" class="caixa-resultado"></div>
+            <button onclick="reiniciar()">Jogar Novamente 🔄</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
