@@ -3,83 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz 1v1 Pro 🎮</title>
+    <title>Quiz 1v1 Online 🎮✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="fundo-animado"></div>
     <div class="container">
-        <!-- Tela 1: Jogadores -->
-        <div id="telaInicio">
-            <h1>🎮 Quiz 1v1 Pro</h1>
-            <p>Desafie seu amigo! 🔥</p>
-            <input type="text" id="jogador1" placeholder="Nome do Jogador 1">
-            <input type="text" id="jogador2" placeholder="Nome do Jogador 2">
-            <button onclick="irConfiguracoes()">Continuar ➡️</button>
-        </div>
-
-        <!-- Tela 2: Configurações -->
-        <div id="telaConfig" style="display: none;">
-            <h2>⚙️ Configurações do Jogo</h2>
+        <!-- Tela Início -->
+        <div id="telaInicio" class="tela">
+            <div class="logo-animado">
+                <span class="emoji-grande">🎮</span>
+                <h1>Quiz 1v1 Online</h1>
+                <p class="subtitulo">Desafie seu amigo em tempo real! ⚡</p>
+            </div>
             
-            <div class="grupo-config">
-                <label>⏱️ Tempo por pergunta:</label>
-                <div class="botoes-opcao">
-                    <button class="opcao-tempo" data-tempo="10" onclick="escolherTempo(10)">10s</button>
-                    <button class="opcao-tempo ativo" data-tempo="20" onclick="escolherTempo(20)">20s</button>
-                    <button class="opcao-tempo" data-tempo="30" onclick="escolherTempo(30)">30s</button>
+            <div class="caixa-form">
+                <input type="text" id="nomeJogador" placeholder="✍️ Seu nome" class="input-animado">
+                <button onclick="criarSala()" class="btn-primario">
+                    ➕ Criar Sala
+                </button>
+                
+                <div class="divisor">
+                    <span>ou entre com um código</span>
                 </div>
-            </div>
-
-            <div class="grupo-config">
-                <label>🔢 Quantidade de perguntas:</label>
-                <div class="botoes-opcao">
-                    <button class="opcao-qtd" data-qtd="5" onclick="escolherQuantidade(5)">5</button>
-                    <button class="opcao-qtd ativo" data-qtd="10" onclick="escolherQuantidade(10)">10</button>
-                    <button class="opcao-qtd" data-qtd="15" onclick="escolherQuantidade(15)">15</button>
-                    <button class="opcao-qtd" data-qtd="20" onclick="escolherQuantidade(20)">20</button>
-                </div>
-            </div>
-
-            <button onclick="irTema()">Escolher Tema ➡️</button>
-        </div>
-
-        <!-- Tela 3: Escolher Tema -->
-        <div id="telaTema" style="display: none;">
-            <h2>📚 Escolha seu Tema</h2>
-            <button onclick="iniciarQuiz('games')">🎮 Games</button>
-            <button onclick="iniciarQuiz('futebol')">⚽ Futebol</button>
-            <button onclick="iniciarQuiz('gerais')">🧠 Conhecimentos Gerais</button>
-            <button onclick="iniciarQuiz('historia')">📜 História</button>
-            <button onclick="iniciarQuiz('ciencia')">🔬 Ciência</button>
-            <button onclick="iniciarQuiz('tecnologia')">💻 Tecnologia</button>
-        </div>
-
-        <!-- Tela 4: Jogo -->
-        <div id="telaJogo" style="display: none;">
-            <div class="cabecalho-jogo">
-                <div id="infoJogador" class="info-jogador"></div>
-                <div id="pontuacao" class="pontuacao"></div>
+                
+                <input type="text" id="codigoEntrada" placeholder="🔤 Código da sala" class="input-animado">
+                <button onclick="entrarSala()" class="btn-secundario">
+                    🚪 Entrar na Sala
+                </button>
             </div>
             
-            <div class="barra-tempo">
-                <div id="barraProgresso" class="progresso"></div>
+            <div class="dicas">
+                <p>💡 Como funciona:</p>
+                <p>1️⃣ Crie uma sala → receba um código</p>
+                <p>2️⃣ Envie o código para seu amigo 📱</p>
+                <p>3️⃣ Escolham o tema e joguem! 🏆</p>
             </div>
-            <p id="contadorTempo" class="tempo-texto"></p>
+        </div>
+
+        <!-- Tela Esperando -->
+        <div id="telaEsperando" class="tela" style="display: none;">
+            <h2>✨ Sala criada!</h2>
+            <p class="label-codigo">Compartilhe esse código com seu amigo 👇</p>
+            <div class="codigo-grande" id="codigoSala"></div>
+            <p id="statusSala" class="status-texto">Aguardando o adversário... ⏳</p>
+            <p id="nomeJogador2" class="jogador-entrou"></p>
             
+            <div id="areaTema" class="tema-container">
+                <h3>🎯 Escolha o tema:</h3>
+                <button onclick="escolherTema('games')" class="btn-tema games">
+                    🎮 Games
+                </button>
+                <button onclick="escolherTema('futebol')" class="btn-tema futebol">
+                    ⚽ Futebol
+                </button>
+                <button onclick="escolherTema('gerais')" class="btn-tema gerais">
+                    🧠 Conhecimentos Gerais
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela Jogo -->
+        <div id="telaJogo" class="tela" style="display: none;">
+            <div id="placar" class="placar"></div>
             <h2 id="perguntaTexto" class="pergunta"></h2>
-            <div id="botoesRespostas" class="respostas"></div>
-            
-            <button onclick="proximaPergunta()" id="botaoProxima" class="btn-proximo" style="display: none;">Próxima ➡️</button>
+            <div id="botoesRespostas" class="respostas-container"></div>
         </div>
 
-        <!-- Tela 5: Resultado -->
-        <div id="telaResultado" style="display: none;">
-            <h2>🏆 Resultado Final</h2>
-            <div id="caixaResultado" class="caixa-resultado"></div>
-            <button onclick="reiniciar()">Jogar Novamente 🔄</button>
+        <!-- Tela Resultado -->
+        <div id="telaResultado" class="tela" style="display: none;">
+            <div class="trofeu-animado">🏆</div>
+            <h2>Fim de Jogo!</h2>
+            <p id="resultadoFinal" class="resultado-texto"></p>
+            <button onclick="reiniciar()" class="btn-primario">
+                🔄 Jogar Novamente
+            </button>
         </div>
     </div>
-
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
