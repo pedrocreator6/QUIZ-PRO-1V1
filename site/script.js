@@ -18,6 +18,7 @@ const db = getDatabase(app);
 let salaId = null;
 let meuJogador = null;
 let sala = null;
+let minhaResposta = null;
 
 const bancoPerguntas = {
   games: [
@@ -40,6 +41,34 @@ const bancoPerguntas = {
     { texto: "🏛️ Qual é a capital do Brasil?", respostas: ["Rio de Janeiro 🌴", "São Paulo 🏙️", "Brasília 🏛️", "Salvador 🌊"], correta: 2 },
     { texto: "🧠 Quantos continentes existem no mundo?", respostas: ["5 🌍", "6 🌎", "7 🌏", "8"], correta: 2 },
     { texto: "💧 A água ferve a quantos graus Celsius?", respostas: ["80°C 🌡️", "90°C 🔥", "100°C 💨", "120°C ☁️"], correta: 2 }
+  ],
+  historia: [
+    { texto: "🇧🇷 Em que ano o Brasil foi descoberto?", respostas: ["1492", "1500 🚢", "1600", "1700"], correta: 1 },
+    { texto: "⚔️ Qual muro caiu em 1989?", respostas: ["Muro de Paris", "Muro de Berlim 🧱", "Muro de Roma", "Muro de Londres"], correta: 1 },
+    { texto: "👑 Quem foi o primeiro imperador do Brasil?", respostas: ["Dom Pedro I", "Dom Pedro II", "Getúlio Vargas", "Dom João VI"], correta: 0 },
+    { texto: "🌎 Qual foi a primeira civilização da América?", respostas: ["Maias", "Astecas", "Incas", "Olmecas"], correta: 3 },
+    { texto: "🚀 Em que ano o homem pisou na Lua?", respostas: ["1959", "1969 🌙", "1979", "1989"], correta: 1 }
+  ],
+  ciencia: [
+    { texto: "🔬 Qual é o símbolo da água?", respostas: ["CO2", "H2O 💧", "O2", "N2"], correta: 1 },
+    { texto: "☀️ Qual é a estrela mais próxima da Terra?", respostas: ["Lua 🌙", "Sol ☀️", "Marte 🔴", "Vênus"], correta: 1 },
+    { texto: "🧬 Onde fica o DNA nas células?", respostas: ["Mitocôndria", "Núcleo 🧠", "Citoplasma", "Membrana"], correta: 1 },
+    { texto: "⚡ Quem descobriu a lei da gravidade?", respostas: ["Einstein", "Newton 🍎", "Tesla", "Edison"], correta: 1 },
+    { texto: "🦷 Quantos dentes tem um adulto?", respostas: ["28", "32 🦷", "36", "24"], correta: 1 }
+  ],
+  entretenimento: [
+    { texto: "🎬 Qual filme tem a frase 'Com grandes poderes...'?", respostas: ["Batman", "Homem-Aranha 🕸️", "Super-Homem", "Os Vingadores"], correta: 1 },
+    { texto: "🎵 Qual cantora é conhecida como 'Rainha do Pop'?", respostas: ["Beyoncé", "Madonna", "Lady Gaga", "Rihanna"], correta: 1 },
+    { texto: "📺 Qual série se passa em Westeros?", respostas: ["The Walking Dead", "Game of Thrones ⚔️", "Stranger Things", "Friends"], correta: 1 },
+    { texto: "🎤 Qual grupo é formado por 5 meninos coreanos famosos?", respostas: ["Blackpink", "BTS 💜", "Twice", "Seventeen"], correta: 1 },
+    { texto: "🎭 Qual Disney tem uma princesa chamada Moana?", respostas: ["Frozen", "Moana 🌊", "A Bela e a Fera", "Aladdin"], correta: 1 }
+  ],
+  geografia: [
+    { texto: "🌍 Qual é o maior país do mundo?", respostas: ["China", "Estados Unidos", "Brasil 🇧🇷", "Rússia"], correta: 3 },
+    { texto: "🏔️ Qual é a montanha mais alta do mundo?", respostas: ["K2", "Monte Evereste ⛰️", "Aconcágua", "Kilimanjaro"], correta: 1 },
+    { texto: "🌊 Qual é o maior oceano?", respostas: ["Atlântico", "Pacífico 🌊", "Índico", "Ártico"], correta: 1 },
+    { texto: "🏝️ Quantos estados tem o Brasil?", respostas: ["24", "26 + DF 🇧🇷", "28", "30"], correta: 1 },
+    { texto: "🌋 Qual país tem formato de bota?", respostas: ["França", "Espanha", "Itália 🇮🇹", "Grécia"], correta: 2 }
   ]
 };
 
@@ -76,8 +105,8 @@ window.criarSala = function() {
   meuJogador = 1;
 
   set(ref(db, `salas/${salaId}`), {
-    jogador1: { nome, pontos: 0 },
-    jogador2: { nome: "", pontos: 0 },
+    jogador1: { nome, pontos: 0, respondeu: false },
+    jogador2: { nome: "", pontos: 0, respondeu: false },
     tema: null,
     perguntas: null,
     perguntaAtual: 0,
@@ -101,8 +130,11 @@ window.criarSala = function() {
       atualizarPlacar();
       mostrarPerguntaAtual();
     }
+    if (sala.estado === "resultado") {
+      atualizarPlacar();
+    }
     if (sala.estado === "finalizado") {
-      mostrarResultado();
+      mostrarResultadoFinal();
     }
   });
 };
@@ -119,7 +151,7 @@ window.entrarSala = function() {
     salaId = codigo;
     meuJogador = 2;
     
-    update(ref(db, `salas/${salaId}/jogador2`), { nome, pontos: 0 });
+    update(ref(db, `salas/${salaId}/jogador2`), { nome, pontos: 0, respondeu: false });
     
     mostrarTela("telaEsperando");
     document.getElementById("codigoSala").textContent = salaId;
@@ -135,8 +167,11 @@ window.entrarSala = function() {
         atualizarPlacar();
         mostrarPerguntaAtual();
       }
+      if (sala.estado === "resultado") {
+        atualizarPlacar();
+      }
       if (sala.estado === "finalizado") {
-        mostrarResultado();
+        mostrarResultadoFinal();
       }
     });
   });
@@ -151,25 +186,34 @@ window.escolherTema = function(tema) {
 };
 
 function atualizarPlacar() {
-  const p1 = sala.jogador1.pontos || 0;
-  const p2 = sala.jogador2.pontos || 0;
+  if (!sala) return;
+  const p1 = sala.jogador1?.pontos || 0;
+  const p2 = sala.jogador2?.pontos || 0;
+  const res1 = sala.jogador1?.respondeu ? "✅" : "⏳";
+  const res2 = sala.jogador2?.respondeu ? "✅" : "⏳";
+  
   document.getElementById("placar").innerHTML = `
     <div class="jogador-card ${meuJogador === 1 ? 'seu-turno' : ''}">
-      <span class="emoji-jogador">🟡</span>
-      <span class="nome-jogador">${sala.jogador1.nome}</span>
+      <span class="emoji-jogador">🟡 ${res1}</span>
+      <span class="nome-jogador">${sala.jogador1?.nome || "Jogador 1"}</span>
       <span class="pontos">${p1} pts</span>
     </div>
     <div class="versus">⚔️</div>
     <div class="jogador-card ${meuJogador === 2 ? 'seu-turno' : ''}">
-      <span class="emoji-jogador">🔴</span>
-      <span class="nome-jogador">${sala.jogador2.nome}</span>
+      <span class="emoji-jogador">🔴 ${res2}</span>
+      <span class="nome-jogador">${sala.jogador2?.nome || "Jogador 2"}</span>
       <span class="pontos">${p2} pts</span>
     </div>
   `;
 }
 
 function mostrarPerguntaAtual() {
+  if (!sala || !sala.perguntas) return;
   const pergunta = sala.perguntas[sala.perguntaAtual];
+  if (!pergunta) return;
+
+  minhaResposta = null;
+
   document.getElementById("perguntaTexto").innerHTML = `
     <span class="progresso">${sala.perguntaAtual + 1} de ${sala.perguntas.length} 📊</span>
     <br>${pergunta.texto}
@@ -187,8 +231,12 @@ function mostrarPerguntaAtual() {
 }
 
 async function responder(escolhida, correta, botao) {
+  if (minhaResposta !== null) return;
+
   const botoes = document.querySelectorAll(".botao-resposta");
   botoes.forEach(b => b.disabled = true);
+
+  minhaResposta = escolhida;
   
   if (escolhida === correta) {
     botao.classList.add("acerto");
@@ -199,23 +247,43 @@ async function responder(escolhida, correta, botao) {
   }
 
   const jogadorKey = meuJogador === 1 ? "jogador1" : "jogador2";
-  if (escolhida === correta) {
-    await update(ref(db, `salas/${salaId}/${jogadorKey}`), {
-      pontos: (sala[jogadorKey].pontos || 0) + 1
-    });
-  }
+  const pontosGanhos = escolhida === correta ? 1 : 0;
+  const pontosAtuais = sala[jogadorKey]?.pontos || 0;
+
+  await update(ref(db, `salas/${salaId}/${jogadorKey}`), {
+    pontos: pontosAtuais + pontosGanhos,
+    respondeu: true
+  });
 
   setTimeout(async () => {
-    const novaPergunta = sala.perguntaAtual + 1;
-    if (novaPergunta < sala.perguntas.length) {
-      await update(ref(db, `salas/${salaId}`), { perguntaAtual: novaPergunta });
-    } else {
-      await update(ref(db, `salas/${salaId}`), { estado: "finalizado" });
+    const snap = await get(ref(db, `salas/${salaId}`));
+    const dados = snap.val();
+    if (!dados) return;
+    
+    const r1 = dados.jogador1?.respondeu;
+    const r2 = dados.jogador2?.respondeu;
+    
+    if (r1 && r2) {
+      await update(ref(db, `salas/${salaId}`), { estado: "resultado" });
+      
+      setTimeout(async () => {
+        const novaPergunta = dados.perguntaAtual + 1;
+        if (novaPergunta < dados.perguntas.length) {
+          await update(ref(db, `salas/${salaId}`), {
+            perguntaAtual: novaPergunta,
+            estado: "jogando",
+            "jogador1/respondeu": false,
+            "jogador2/respondeu": false
+          });
+        } else {
+          await update(ref(db, `salas/${salaId}`), { estado: "finalizado" });
+        }
+      }, 2500);
     }
-  }, 1200);
+  }, 300);
 }
 
-function mostrarResultado() {
+function mostrarResultadoFinal() {
   const p1 = sala.jogador1.pontos || 0;
   const p2 = sala.jogador2.pontos || 0;
   let mensagem, emoji;
