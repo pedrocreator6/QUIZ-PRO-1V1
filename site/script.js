@@ -1,4 +1,4 @@
-// Dadconst firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCmTLR2y0XEIr7yMc0S09HIg4sb0h8w4o2s",
   authDomain: "quiz-1v1-pro.firebaseapp.com",
   databaseURL: "https://quiz-1v1-pro-default-rtdb.firebaseio.com",
@@ -238,4 +238,4 @@ function mostrarResultado() {
 
 window.reiniciar = function() {
   location.reload();
-};os do jogo
+};
