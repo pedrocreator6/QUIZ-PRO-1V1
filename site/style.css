@@ -1,449 +1,428 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    --azul: #3b82f6;
-    --roxo: #8b5cf6;
-    --rosa: #ec4899;
-    --verde: #10b981;
-    --ouro: #fbbf24;
-    --vermelho: #ef4444;
-    --fundo-escuro: #0f172a;
-    --fundo-card: #1e293b;
-    --texto-claro: #f1f5f9;
-    --texto-cinza: #94a3b8;
+  --azul: #3b82f6;
+  --roxo: #8b5cf6;
+  --rosa: #ec4899;
+  --verde: #10b981;
+  --ouro: #fbbf24;
+  --vermelho: #ef4444;
+  --fundo-escuro: #0f172a;
+  --fundo-card: #1e293b;
+  --texto-claro: #f1f5f9;
+  --texto-cinza: #94a3b8;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--fundo-escuro);
-    color: var(--texto-claro);
-    min-height: 100vh;
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: var(--fundo-escuro);
+  color: var(--texto-claro);
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .fundo-animado {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
-    animation: fundoPulse 8s ease-in-out infinite;
-    z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1), transparent 50%);
+  animation: fundoPulse 8s ease-in-out infinite;
+  z-index: -1;
 }
 
 @keyframes fundoPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 .confete {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    top: -10px;
-    animation: cair 2.5s ease-in-out forwards;
-    z-index: 9999;
+  position: fixed;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation: cair 2.5s ease-in-out forwards;
+  z-index: 999;
 }
 
 @keyframes cair {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
 
 .container {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: 35px 25px;
-    background: rgba(30, 41, 59, 0.85);
-    border-radius: 28px;
-    box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .tela {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .tela.ativa {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .logo-animado {
-    text-align: center;
-    margin-bottom: 35px;
+  text-align: center;
+  padding: 40px 20px 20px;
 }
 
 .emoji-grande {
-    font-size: 4rem;
-    display: block;
-    animation: flutuar 3s ease-in-out infinite;
-    margin-bottom: 10px;
+  font-size: 4rem;
+  display: inline-block;
+  animation: flutuar 3s ease-in-out infinite;
 }
 
 @keyframes flutuar {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, var(--azul), var(--roxo), var(--rosa));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: brilho 3s linear infinite;
-    margin-bottom: 8px;
-}
-
-@keyframes brilho {
-    to { background-position: 200% center; }
+.logo-animado h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, var(--azul), var(--rosa));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 10px 0;
 }
 
 .subtitulo {
-    color: var(--texto-cinza);
-    font-size: 1rem;
-}
-
-h2 {
-    font-size: 1.6rem;
-    text-align: center;
-    margin-bottom: 25px;
-    color: var(--texto-claro);
-}
-
-h3 {
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--texto-claro);
+  color: var(--texto-cinza);
+  font-size: 1rem;
 }
 
 .caixa-form {
-    margin-bottom: 30px;
+  background: var(--fundo-card);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .input-animado {
-    width: 100%;
-    padding: 18px 20px;
-    margin: 10px 0;
-    border: 2px solid transparent;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-family: inherit;
-    background: rgba(51, 65, 85, 0.5);
-    color: var(--texto-claro);
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.05);
+  color: var(--texto-claro);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
 .input-animado:focus {
-    outline: none;
-    border-color: var(--azul);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-    transform: scale(1.02);
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
 }
 
-.btn-primario, .btn-secundario, .btn-tema {
-    width: 100%;
-    padding: 18px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.btn-primario, .btn-secundario {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
 .btn-primario {
-    background: linear-gradient(90deg, var(--azul), var(--roxo));
-    color: white;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(90deg, var(--azul), var(--roxo));
+  color: white;
 }
 
 .btn-primario:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secundario {
-    background: rgba(139, 92, 246, 0.2);
-    color: var(--roxo);
-    border: 2px solid var(--roxo);
+  background: rgba(255,255,255,0.08);
+  color: var(--texto-claro);
+  border: 2px solid rgba(255,255,255,0.1);
 }
 
 .btn-secundario:hover {
-    background: rgba(139, 92, 246, 0.3);
-    transform: translateY(-2px);
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
 }
 
 .divisor {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 25px 0;
-    color: var(--texto-cinza);
-    font-size: 0.9rem;
+  text-align: center;
+  margin: 20px 0;
+  color: var(--texto-cinza);
+  font-size: 0.9rem;
+  position: relative;
 }
 
 .divisor::before, .divisor::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
 }
 
-.divisor span {
-    padding: 0 15px;
-}
+.divisor::before { left: 0; }
+.divisor::after { right: 0; }
 
 .dicas {
-    background: rgba(51, 65, 85, 0.3);
-    border-radius: 14px;
-    padding: 20px;
-    font-size: 0.9rem;
-    color: var(--texto-cinza);
-    line-height: 1.8;
+  text-align: center;
+  color: var(--texto-cinza);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-top: 20px;
 }
 
-.dicas p {
-    margin-bottom: 5px;
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
 .label-codigo {
-    text-align: center;
-    color: var(--texto-cinza);
-    margin-bottom: 10px;
+  text-align: center;
+  color: var(--texto-cinza);
+  margin-bottom: 10px;
 }
 
 .codigo-grande {
-    font-size: 2.5rem;
-    font-weight: 800;
-    text-align: center;
-    padding: 25px;
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.05));
-    border: 2px solid var(--ouro);
-    border-radius: 16px;
-    letter-spacing: 10px;
-    color: var(--ouro);
-    margin: 20px 0;
-    animation: brilhoCodigo 2s ease-in-out infinite;
-}
-
-@keyframes brilhoCodigo {
-    0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
-    50% { box-shadow: 0 0 35px rgba(251, 191, 36, 0.6); }
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 10px;
+  color: var(--ouro);
+  background: rgba(251, 191, 36, 0.1);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 20px 0;
+  font-family: monospace;
 }
 
 .status-texto {
-    text-align: center;
-    color: var(--texto-cinza);
-    margin-bottom: 10px;
+  text-align: center;
+  color: var(--texto-cinza);
+  margin: 10px 0;
 }
 
 .jogador-entrou {
-    text-align: center;
-    color: var(--verde);
-    font-weight: 600;
-    margin-bottom: 25px;
+  text-align: center;
+  color: var(--verde);
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .tema-container {
-    margin-top: 30px;
+  margin-top: 30px;
+}
+
+.tema-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--texto-claro);
 }
 
 .btn-tema {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  width: 100%;
+  padding: 15px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.08);
+  color: var(--texto-claro);
+  border: 2px solid transparent;
 }
 
 .btn-tema.games {
-    background: linear-gradient(90deg, #10b981, #059669);
-    color: white;
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
 }
 
 .btn-tema.futebol {
-    background: linear-gradient(90deg, #f59e0b, #d97706);
-    color: white;
+  background: linear-gradient(90deg, var(--verde), #059669);
 }
 
 .btn-tema.gerais {
-    background: linear-gradient(90deg, #6366f1, #4f46e5);
-    color: white;
+  background: linear-gradient(90deg, var(--ouro), #d97706);
 }
 
 .btn-tema:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  border-color: rgba(255,255,255,0.2);
 }
 
 .placar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--fundo-card);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 }
 
 .jogador-card {
-    flex: 1;
-    padding: 15px;
-    background: rgba(51, 65, 85, 0.5);
-    border-radius: 14px;
-    text-align: center;
-    transition: all 0.3s ease;
+  text-align: center;
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
 .jogador-card.seu-turno {
-    border: 2px solid var(--ouro);
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid var(--azul);
 }
 
 .emoji-jogador {
-    font-size: 1.5rem;
-    display: block;
-    margin-bottom: 5px;
+  font-size: 1.5rem;
 }
 
 .nome-jogador {
-    font-weight: 700;
-    font-size: 0.9rem;
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  font-weight: 600;
+  margin: 5px 0;
 }
 
 .pontos {
-    font-size: 1.3rem;
-    font-weight: 800;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ouro);
 }
 
 .versus {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--rosa);
-}
-
-.progresso {
-    font-size: 0.9rem;
-    color: var(--texto-cinza);
-    display: block;
-    margin-bottom: 10px;
+  font-size: 1.5rem;
+  padding: 0 15px;
+  color: var(--texto-cinza);
 }
 
 .pergunta {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    text-align: center;
-    margin-bottom: 30px;
+  background: var(--fundo-card);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+.progresso {
+  font-size: 0.9rem;
+  color: var(--texto-cinza);
+  display: block;
+  margin-bottom: 10px;
 }
 
 .respostas-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .botao-resposta {
-    padding: 18px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    background: rgba(51, 65, 85, 0.5);
-    color: var(--texto-claro);
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: left;
+  padding: 18px 25px;
+  background: var(--fundo-card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  color: var(--texto-claro);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .botao-resposta:hover:not(:disabled) {
-    border-color: var(--azul);
-    background: rgba(59, 130, 246, 0.15);
-    transform: translateX(8px);
+  border-color: var(--azul);
+  transform: translateX(5px);
+  background: rgba(59, 130, 246, 0.1);
 }
 
 .botao-resposta:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
 .botao-resposta.acerto {
-    background: rgba(16, 185, 129, 0.25);
-    border-color: var(--verde);
-    color: #a7f3d0;
-    animation: acertou 0.5s ease;
-}
-
-@keyframes acertou {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--verde);
+  color: #a7f3d0;
 }
 
 .botao-resposta.erro {
-    background: rgba(239, 68, 68, 0.25);
-    border-color: var(--vermelho);
-    color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--vermelho);
+  color: #fca5a5;
 }
 
 .botao-resposta.correta-revelada {
-    background: rgba(16, 185, 129, 0.25);
-    border-color: var(--verde);
-    color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--verde);
 }
 
 .letra {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    margin-right: 12px;
-    font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .trofeu-animado {
-    font-size: 4rem;
-    text-align: center;
-    animation: pularTrofeu 1s ease-in-out infinite;
-    margin-bottom: 20px;
+  font-size: 4rem;
+  text-align: center;
+  animation: trofeu 1s ease-in-out infinite alternate;
+  margin: 20px 0;
 }
 
-@keyframes pularTrofeu {
-    0%, 100% { transform: translateY(0) rotate(-5deg); }
-    50% { transform: translateY(-15px) rotate(5deg); }
+@keyframes trofeu {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
 .resultado-texto {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    text-align: center;
-    padding: 30px 20px;
-    background: rgba(51, 65, 85, 0.5);
-    border-radius: 18px;
-    margin-bottom: 25px;
-    white-space: pre-line;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 2;
+  margin: 30px 0;
+  white-space: pre-line;
 }
