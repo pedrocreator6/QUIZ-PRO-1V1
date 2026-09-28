@@ -1,20 +1,15 @@
-// ==================================================
-// 🔴 COLE SEUS DADOS DO FIREBASE AQUI EMBAIXO 🔴
-// ==================================================
 const firebaseConfig = {
-  apiKey: "COLE_SUA_API_KEY_AQUI",
-  authDomain: "COLE_SEU_DOMINIO_AQUI",
-  databaseURL: "COLE_SUA_URL_AQUI",
-  projectId: "COLE_SEU_PROJETO_ID_AQUI",
-  storageBucket: "COLE_SEU_BUCKET_AQUI",
-  messagingSenderId: "COLE_SEU_SENDER_ID_AQUI",
-  appId: "COLE_SUA_APP_ID_AQUI"
+  apiKey: "AIzaSyCycmTLR2oXEIr7yMc0S09HIG4sb8w4o2s",
+  authDomain: "quiz-1v1-pro.firebaseapp.com",
+  databaseURL: "https://quiz-1v1-pro-default-rtdb.firebaseio.com",
+  projectId: "quiz-1v1-pro",
+  storageBucket: "quiz-1v1-pro.appspot.com",
+  messagingSenderId: "154693950784",
+  appId: "1:154693950784:web:68098fc6655c1f425feea5"
 };
 
-// Inicializa Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 // ================= PERGUNTAS =================
 const perguntas = {
     gerais: [
