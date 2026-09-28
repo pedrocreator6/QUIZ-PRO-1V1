@@ -3,112 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QUIZ PRO 1V1 ⚔️</title>
+  <title>Quiz 1v1 Pro 🎯</title>
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Tela Inicial -->
-    <div id="tela-inicial" class="tela ativa">
-      <div class="logo">
-        <span class="emoji">🧠</span>
-        <h1>QUIZ PRO 1V1</h1>
-        <p>Batalha em tempo real com seu amigo! ⚔️</p>
-      </div>
+  <!-- Tela Início -->
+  <div class="tela ativa" id="tela-inicio">
+    <h1>🎯 QUIZ 1v1 PRO</h1>
+    <p>Jogue com amigos em tempo real!</p>
+    <div class="caixa">
+      <label>Seu nome de usuário:</label>
+      <input type="text" id="nome-jogador" placeholder="Digite seu nome..." maxlength="15" required>
       <div class="botoes">
-        <button class="btn primario" onclick="mostrarTela('tela-nome')">➕ Criar Sala</button>
-        <button class="btn secundario" onclick="mostrarTela('tela-entrar')">🚪 Entrar em Sala</button>
+        <button id="btn-criar" class="btn-principal">➕ Criar Sala</button>
+        <button id="btn-entrar" class="btn-secundario">🔗 Entrar com Código</button>
       </div>
-    </div>
-
-    <!-- Tela Nome -->
-    <div id="tela-nome" class="tela">
-      <button class="btn-voltar" onclick="mostrarTela('tela-inicial')">← Voltar</button>
-      <h2>Digite seu nome 📝</h2>
-      <input type="text" id="nome-criador" placeholder="Seu nome..." maxlength="20">
-      <button class="btn primario" onclick="iniciarCriacao()">Continuar →</button>
-    </div>
-
-    <!-- Tela Entrar Sala -->
-    <div id="tela-entrar" class="tela">
-      <button class="btn-voltar" onclick="mostrarTela('tela-inicial')">← Voltar</button>
-      <h2>Entrar na Sala 🔑</h2>
-      <input type="text" id="codigo-sala" placeholder="Código da sala..." maxlength="6">
-      <input type="text" id="nome-convidado" placeholder="Seu nome..." maxlength="20">
-      <button class="btn primario" onclick="entrarSala()">Entrar →</button>
-    </div>
-
-    <!-- Tela Configuração -->
-    <div id="tela-config" class="tela">
-      <h2>Configurar Jogo ⚙️</h2>
-      <div class="config-group">
-        <label>Tema 🎨</label>
-        <select id="tema-jogo"></select>
+      <div id="area-codigo" class="escondido">
+        <input type="text" id="codigo-sala" placeholder="Código da sala..." maxlength="6">
+        <button id="btn-confirmar-codigo" class="btn-principal">✅ Entrar</button>
       </div>
-      <div class="config-group">
-        <label>Quantidade de Perguntas 🔢</label>
-        <select id="qtd-perguntas">
-          <option value="5">5 perguntas</option>
-          <option value="10" selected>10 perguntas</option>
-          <option value="15">15 perguntas</option>
-          <option value="20">20 perguntas</option>
-        </select>
-      </div>
-      <div class="config-group">
-        <label>Tempo por Pergunta ⏱️</label>
-        <select id="tempo-resposta">
-          <option value="10">10 segundos</option>
-          <option value="20" selected>20 segundos</option>
-          <option value="30">30 segundos</option>
-        </select>
-      </div>
-      <p id="aguarde-jogador" class="aguarde">Aguardando adversário entrar... 🕐</p>
-      <button id="btn-iniciar" class="btn primario" onclick="iniciarPartida()" disabled>🚀 Começar Jogo</button>
-    </div>
-
-    <!-- Tela Jogo -->
-    <div id="tela-jogo" class="tela">
-      <div class="topo">
-        <div class="jogador" id="jogador-esquerdo">
-          <span class="nome">Você</span>
-          <span class="pontos">0 ✅</span>
-        </div>
-        <div class="cronometro" id="cronometro">20</div>
-        <div class="jogador" id="jogador-direito">
-          <span class="nome" id="nome-adversario">Adversário</span>
-          <span class="pontos" id="pontos-adversario">0 ✅</span>
-        </div>
-      </div>
-      <div class="progresso">
-        <span id="contador-pergunta">1 / 10</span>
-      </div>
-      <div class="pergunta-container">
-        <h3 id="pergunta"></h3>
-      </div>
-      <div class="alternativas" id="alternativas"></div>
-    </div>
-
-    <!-- Tela Resultado -->
-    <div id="tela-resultado" class="tela">
-      <h2>🏆 Resultado Final</h2>
-      <div class="podio">
-        <div class="jogador-resultado" id="resultado-voce">
-          <span class="posicao">🥇</span>
-          <h4>Você</h4>
-          <p id="acertos-voce">0 acertos</p>
-        </div>
-        <div class="jogador-resultado" id="resultado-adversario">
-          <span class="posicao">🥈</span>
-          <h4 id="nome-final-adversario">Adversário</h4>
-          <p id="acertos-adversario">0 acertos</p>
-        </div>
-      </div>
-      <button class="btn primario" onclick="mostrarTela('tela-inicial')">🔄 Jogar Novamente</button>
+      <div class="ou">— ou —</div>
+      <button id="btn-maquina" class="btn-terciario">🤖 Jogar contra a Máquina</button>
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <!-- Tela Configuração -->
+  <div class="tela" id="tela-config">
+    <h2>⚙️ Configurar Partida</h2>
+    <p>Código da sala: <span id="cod-exibido" class="destaque"></span></p>
+    <div class="caixa">
+      <div class="opcao">
+        <h3>📚 Escolha o Tema</h3>
+        <div id="lista-temas" class="grade-botoes"></div>
+      </div>
+      <div class="opcao">
+        <h3>❓ Quantidade de Perguntas</h3>
+        <div class="grade-botoes">
+          <button class="btn-qtd" data-qtd="10">10</button>
+          <button class="btn-qtd" data-qtd="15">15</button>
+          <button class="btn-qtd" data-qtd="20">20</button>
+          <button class="btn-qtd" data-qtd="30">30</button>
+        </div>
+      </div>
+      <div class="opcao">
+        <h3>⏱️ Tempo por Pergunta</h3>
+        <div class="grade-botoes">
+          <button class="btn-tempo" data-seg="10">10s</button>
+          <button class="btn-tempo" data-seg="20">20s</button>
+          <button class="btn-tempo" data-seg="30">30s</button>
+          <button class="btn-tempo" data-seg="60">60s</button>
+        </div>
+      </div>
+      <button id="btn-iniciar" class="btn-principal grande">🚀 INICIAR JOGO</button>
+      <p id="aguardando" class="aviso escondido">⏳ Aguardando o outro jogador...</p>
+    </div>
+  </div>
+
+  <!-- Tela Jogo -->
+  <div class="tela" id="tela-jogo">
+    <div class="topo">
+      <div class="jogador" id="jogador-1">
+        <span id="nome-1">Jogador 1</span>
+        <span id="pontos-1">0</span>
+      </div>
+      <div class="cronometro" id="cronometro">20</div>
+      <div class="jogador" id="jogador-2">
+        <span id="nome-2">Jogador 2</span>
+        <span id="pontos-2">0</span>
+      </div>
+    </div>
+    <div class="caixa-pergunta">
+      <h3 id="texto-pergunta">Pergunta aqui</h3>
+      <div id="lista-alternativas" class="alternativas"></div>
+      <p id="status-resposta" class="status"></p>
+    </div>
+    <div class="progresso">
+      <span id="contagem-perguntas">1 / 10</span>
+    </div>
+  </div>
+
+  <!-- Tela Resultado -->
+  <div class="tela" id="tela-resultado">
+    <h2>🏆 Resultado Final</h2>
+    <div class="podio">
+      <div class="lugar segundo">
+        <div class="numero">2º</div>
+        <div id="nome-2-res"></div>
+        <div id="pontos-2-res"></div>
+      </div>
+      <div class="lugar primeiro">
+        <div class="numero">1º</div>
+        <div id="nome-1-res"></div>
+        <div id="pontos-1-res"></div>
+      </div>
+    </div>
+    <p id="mensagem-vencedor" class="vencedor"></p>
+    <button id="btn-novo" class="btn-principal">🔄 Jogar Novamente</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
