@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ PRO 1V1 — MULTIPLAYER AO VIVO</title>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="fundo-animado"></div>
 
+    <!-- TELA INÍCIO -->
+    <div id="tela-inicio" class="tela ativa">
+        <div class="caixa-centro">
+            <h1>🧠 QUIZ PRO 1V1</h1>
+            <p class="subtitulo">Batalha em tempo real com seu amigo!</p>
+            <div class="grupo-botoes">
+                <button class="btn-principal" onclick="mostrarTela('tela-criar')">➕ Criar Sala</button>
+                <button class="btn-principal" onclick="mostrarTela('tela-entrar')">🎮 Entrar em Sala</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA CRIAR SALA -->
+    <div id="tela-criar" class="tela">
+        <div class="caixa-centro">
+            <h2>➕ Criar Sala</h2>
+            <input type="text" id="nomeCriador" placeholder="Seu nome" maxlength="20">
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="mostrarTela('tela-inicio')">← Voltar</button>
+                <button class="btn-avancar" onclick="criarSala()">Criar →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA ENTRAR SALA -->
+    <div id="tela-entrar" class="tela">
+        <div class="caixa-centro">
+            <h2>🎮 Entrar em Sala</h2>
+            <input type="text" id="nomeJogador" placeholder="Seu nome" maxlength="20">
+            <input type="text" id="codigoSalaEntrada" placeholder="Código da Sala" maxlength="6">
+            <div class="botoes-duplos">
+                <button class="btn-voltar" onclick="mostrarTela('tela-inicio')">← Voltar</button>
+                <button class="btn-avancar" onclick="entrarSala()">Entrar →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA ESPERA -->
+    <div id="tela-espera" class="tela">
+        <div class="caixa-centro">
+            <h2>⏳ Aguardando...</h2>
+            <div class="codigo-sala">
+                <p>Código da sala:</p>
+                <strong id="codigoExibido">------</strong>
+            </div>
+            <p id="statusSala">Compartilhe o código com seu adversário</p>
+            
+            <!-- Só o dono vê isso -->
+            <div id="configDono" style="display:none;">
+                <div class="config-grupo">
+                    <p>Quantidade de perguntas:</p>
+                    <div class="botoes-opcao">
+                        <button class="btn-q" data-q="5" onclick="definirQtd(5)">5</button>
+                        <button class="btn-q ativo" data-q="10" onclick="definirQtd(10)">10</button>
+                        <button class="btn-q" data-q="15" onclick="definirQtd(15)">15</button>
+                    </div>
+                </div>
+                <div class="config-grupo">
+                    <p>Tempo por pergunta:</p>
+                    <div class="botoes-opcao">
+                        <button class="btn-t" data-t="10" onclick="definirTempo(10)">10s</button>
+                        <button class="btn-t ativo" data-t="20" onclick="definirTempo(20)">20s</button>
+                        <button class="btn-t" data-t="30" onclick="definirTempo(30)">30s</button>
+                    </div>
+                </div>
+                <div class="config-grupo">
+                    <p>Tema:</p>
+                    <div class="botoes-opcao">
+                        <button class="btn-tema-sel ativo" data-tema="gerais" onclick="definirTema('gerais')">Gerais</button>
+                        <button class="btn-tema-sel" data-tema="filmes" onclick="definirTema('filmes')">Filmes</button>
+                        <button class="btn-tema-sel" data-tema="esportes" onclick="definirTema('esportes')">Esportes</button>
+                        <button class="btn-tema-sel" data-tema="musica" onclick="definirTema('musica')">Música</button>
+                        <button class="btn-tema-sel" data-tema="curiosidades" onclick="definirTema('curiosidades')">Curiosidades</button>
+                    </div>
+                </div>
+                <button id="btnIniciarPartida" class="btn-principal" style="margin-top:1rem;display:none;" onclick="iniciarPartida()">▶ INICIAR JOGO</button>
+            </div>
+            
+            <button class="btn-voltar" style="margin-top:2rem;" onclick="sairSala()">Sair da Sala</button>
+        </div>
+    </div>
+
+    <!-- TELA JOGO -->
+    <div id="tela-jogo" class="tela">
+        <div class="topo-jogo">
+            <div class="jogador">
+                <span id="nomeP1">Jogador 1</span>
+                <strong id="pontosP1">0</strong>
+            </div>
+            <div class="cronometro" id="cronometro">20</div>
+            <div class="jogador">
+                <span id="nomeP2">Jogador 2</span>
+                <strong id="pontosP2">0</strong>
+            </div>
+        </div>
+
+        <div class="caixa-pergunta">
+            <p id="perguntaTexto" class="texto-pergunta"></p>
+            <div id="botoesRespostas" class="grade-respostas"></div>
+        </div>
+    </div>
+
+    <!-- TELA RESULTADO -->
+    <div id="tela-resultado" class="tela">
+        <div class="caixa-centro">
+            <h2 id="textoVencedor"></h2>
+            <div class="placar-final">
+                <div>
+                    <span id="nomeFinal1"></span>
+                    <strong id="pontosFinal1">0</strong>
+                </div>
+                <span class="versus">VS</span>
+                <div>
+                    <span id="nomeFinal2"></span>
+                    <strong id="pontosFinal2">0</strong>
+                </div>
+            </div>
+            <button class="btn-principal" onclick="sairSala(); mostrarTela('tela-inicio');">🏠 Voltar ao Início</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
